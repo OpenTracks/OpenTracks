@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:fillViewport="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:fillViewport="true">
+
+                <TableRow>
+                    <ImageView
+                        android:src="@drawable/detail_beaskund"
+                        android:id="@+id/img_trackpreview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="212dp" />
+                </TableRow>
+
+                <TableRow>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorLightBlue"
+                        android:id="@+id/group_description"
+                        android:layout_weight="0.00">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="$TrackName"
+                            android:textColor="@color/colorWhite"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:id="@+id/text_trackname" />
+
+                        <RatingBar
+                            android:layout_height="wrap_content"
+                            android:numStars="5"
+                            style="@android:style/Widget.Material.RatingBar.Small"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/rating_track"
+                            android:layout_width="80dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="$TrackLocation"
+                            android:textColor="@color/colorWhite"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="15dp"
+                            android:id="@+id/text_tracklocation" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/detail_heightprofile"
+                        android:id="@+id/img_trackheightprofile"
+                        android:layout_height="200dp" />
+                </TableRow>
+
+                <TableRow>
+
+                </TableRow>
+
+                <TableRow>
+
+                </TableRow>
+
+            </TableLayout>
+        </ScrollView>
+
+        <Button
+            android:text="Back"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/btn_detailback"
+            android:layout_alignParentBottom="true"
+            android:elevation="0dp" />
+    </RelativeLayout>
+
+</LinearLayout>
