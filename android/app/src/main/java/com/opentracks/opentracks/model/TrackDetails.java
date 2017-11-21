@@ -2,7 +2,7 @@ package com.opentracks.opentracks.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import java.util.ArrayList;
+import java.util.List;
 
 
 /*
@@ -13,6 +13,7 @@ When requesting TrackDetails, response data should be merged into existing Track
 with same ID through a request manager
 
 */
+
 
 public class TrackDetails implements Parcelable {
 
@@ -39,10 +40,8 @@ public class TrackDetails implements Parcelable {
     public int difficulty;
     public String imgPreviewURL;
 
-    public ArrayList<float[]> pathPreview;
-
-    public ArrayList<float[]> path;
-    public float[] elevationProfile;
+    public List<double[]> path;
+    public double[] elevationProfile;
 
 
     public TrackDetails()

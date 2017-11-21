@@ -10,7 +10,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.opentracks.opentracks.db.SpatiaLiteAPI;
 import com.opentracks.opentracks.model.TrackDetails;
+import com.opentracks.opentracks.ui.TrackMapView;
 import com.qozix.tileview.markers.MarkerLayout.MarkerTapListener;
 import com.qozix.tileview.paths.CompositePathView.DrawablePath;
 import com.qozix.tileview.TileView;
@@ -26,7 +28,7 @@ public class MapActivity extends Activity implements MarkerTapListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
 
         setupUI();
     }
@@ -50,12 +52,13 @@ public class MapActivity extends Activity implements MarkerTapListener {
         btn_list.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 Intent toList = new Intent(view.getContext(), TrackListActivity.class);
+                toList.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(toList);
             }
         });
 
         setupTileView();
-        addDummyDataToMap();
+        displayNearbyTracks();
     }
 
     private void setupTileView()
@@ -74,44 +77,26 @@ public class MapActivity extends Activity implements MarkerTapListener {
         FrameLayout lmap = (FrameLayout) findViewById(R.id.l_map);
         lmap.setBackgroundColor(R.color.colorWhite);
         lmap.addView(mapView);
-    }
-
-    private void addDummyDataToMap()
-    {
-        ArrayList<double[]> path = new ArrayList<double[]>();
-        double[] pathPoints = new double[]{
-                11702.239687, 6634.551331,
-                11701.434596, 6634.388093,
-                11700.557141, 6634.540018,
-                11700.195783, 6634.274416,
-                11700.087012, 6634.013648
-        };
-
-        // create beas kund path
-        for (int i = 0; i < pathPoints.length; i += 2) {
-            path.add(new double[]{pathPoints[i], pathPoints[i + 1]});
-        }
-        DrawablePath pathView = mapView.drawPath(path, null);
-
-        // configure marker
-        ImageView marker = new ImageView(this);
-        marker.setImageResource(R.drawable.marker);
-        mapView.addMarker(marker, 11700.087012, 6634.013648, -0.5f, -0.5f);
         mapView.setMarkerTapListener(this);
     }
 
+    private void displayNearbyTracks()
+    {
+        ArrayList<TrackDetails> tracks = SpatiaLiteAPI.getInstance().getNearbyTracks();
+        for(int i = 0; i < tracks.size(); i++)
+        {
+            TrackMapView trackView = TrackMapView.addToMap(this, mapView, tracks.get(i));
+            trackView.drawablePath = mapView.drawPath(tracks.get(i).path, null);
+        }
+    }
 
-    // configure and launch track detail activity
+    @Override
     public void onMarkerTap(View view, int x, int y) {
         Intent toDetails = new Intent(this, TrackDetailsActivity.class);
         Bundle b = new Bundle();
 
         // send data over parelable models
-        TrackDetails tdetails = new TrackDetails();
-        tdetails.name = "Beas Kund";
-        tdetails.rating = 4.0f;
-        tdetails.location = "Himachal Pradesh";
-        b.putParcelable(TrackDetailsActivity.EXTRA_TRACK_DETAILS, tdetails);
+        b.putParcelable(TrackDetailsActivity.EXTRA_TRACK_DETAILS, ((TrackMapView)view).details);
 
         toDetails.putExtras(b);
         startActivity(toDetails);
